@@ -1,2 +1,2 @@
-# Machine-Learning-with-R
+# Machine-Learning-Using-R
 Using "healthcareai" package to Employee Retention data
