@@ -1,0 +1,36 @@
+
+library(readr)
+library(healthcareai)
+
+#loading data
+employee_data <- read_csv("C:/Users/mukul/OneDrive/Desktop/employee_data.csv")
+View(employee_data)
+
+#descriptive analysis
+ed=employee_data
+dim(ed)
+colnames(ed)
+mean(ed$n_projects)
+cor(ed$n_projects, ed$avg_monthly_hrs)
+cor.test(ed$n_projects, ed$avg_monthly_hrs)
+
+#data cleaning
+missingness(ed)  #reports missing data
+#prep_data(ed)
+
+ed1=prep_data(ed) # addresses missing data
+
+write.csv(ed1, "ed1.csv")
+
+# Machine Learning
+machine_learn(ed,outcome=status)
+
+#split test -train
+models = machine_learn(ed,outcome=status) # assigning ML value to models
+ed_train = split_train_test (ed, outcome=status, 0.8)
+predicts(models, newdata = ed_train$test)
+
+#alternatively
+ed_train = split_train_test (ed, outcome=status, 0.8)
+models = machine_learn(ed_train$train,outcome=status) 
+predicts(models, newdata = ed_train$test)
